@@ -7,7 +7,8 @@ import java.util.NoSuchElementException;
 
 public class LinkedList
 {
-    // a linked list has a head node and a size
+    //a linked list has a head node and a size
+    //added extra header dummy node to the head of the list
     private ListNode head;
     private int size;
     private ListNode header;
@@ -96,30 +97,31 @@ public class LinkedList
     /**
      * Remove the nth element in the list
      */
-    //first check if n is within bounds - error?
-    //find the node BEFORE and AFTER nth node to change pointers
-    //for loop - increment iterator until the node before nth node (n - 1)
-    //find and assign all 3 nodes (BEFORE, nth, AFTER) to a variable for reference
-    //change BEFORE and AFTER next ListNode pointers
-    //change nth next pointer to null
-    //add an empty header node?
-
+    //first check if the list is empty
+    //then check if n is within bounds
+    //find the node BEFORE and AFTER nth node using for loop
+    //change pointers of BEFORE and NTH node
+    //decrement size
+    //note: an empty header node is used to simplify loop
     public void remove(int n) {
-        if (n > size) {
-            System.out.println("Out of bounds.");
-        } else if (n == 1) {
-            removeFirst();
-        } else {
-            ListNode prev = header;
-            for(int i = 1; i < n; i++) {
-                prev = prev.getNext();
+        if (size != 0) {
+            if (n < 0 || n >= size) {
+                System.out.println("Out of bounds.");
+            } else if (n == 0) {
+                removeFirst();
+            } else {
+                ListNode prev = header;
+                for(int i = 0; i < n; i++) {
+                    prev = prev.getNext();
+                }
+                ListNode nth = prev.getNext();
+                prev.setNext(nth.getNext());
+                nth.setNext(null);
+                --size;
             }
-            ListNode nth = prev.getNext();
-            ListNode after = nth.getNext();
 
-            prev.setNext(after);
-            nth.setNext(null);
-            --size;
+        } else {
+            System.out.println("Error - List is empty");
         }
     }
 
