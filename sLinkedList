@@ -1,23 +1,23 @@
+import java.util.NoSuchElementException;
+import java.lang.IndexOutOfBoundsException;
 /**
  * LinkedList: a basic implementation of a singly linked list data structure. 
  * A linked list is a chain of ListNode objects. The head of the list is the 
  * first node of the chain (or null in the case of an empty list).
-**/
-import java.util.NoSuchElementException;
-
+ * 
+ * @author Karen Suen
+ * @version March 2017
+ */
 public class LinkedList
 {
-    //a linked list has a head node and a size
-    //added extra header dummy node to the head of the list
+    // a linked list has a head node and a size
     private ListNode head;
     private int size;
-    private ListNode header;
 
     /**
      * Construct a new empty list
      */
     public LinkedList() {
-        header = new ListNode(null, head);
         head = null;
         size = 0;
     }
@@ -29,7 +29,6 @@ public class LinkedList
     public void addFirst(ListNode node) {
         node.setNext(head);
         head = node;
-        header.setNext(head);
         ++size;
     }
 
@@ -37,18 +36,13 @@ public class LinkedList
      * Remove the first list item
      */
     public void removeFirst() {
-        // report error if list empty
+        // report error if list is empty
         if (head == null) {
             throw new NoSuchElementException();
-        } 
-        // otherwise remove the item
-        else {
+        } else {
             ListNode temp = head;
             head = head.getNext();
             temp.setNext(null);
-
-            header.setNext(head);
-
             size--;
         }
     }
@@ -56,39 +50,28 @@ public class LinkedList
     /**
      * Add new data to the front of the list by constructing a new node
      */
-    //construct new node with Object data and null pointer
-    //set new node as head (invoke addFirst(node))
-    //increment size (handled by addFirst)!!!
+
     public void add(Object item) {
-        ListNode n = new ListNode(item, null);
-        addFirst(n);
+        addFirst(new ListNode(item, null));
     }
 
     /**
      * Searches the list for the specified item and returns true if found, otherwise false
      * @return True if item is in list, false otherwise
      */
-    //first check if the list is empty - return false immediately if empty
-    //search the list by comparing each node data
-    //create a getData() method to access data in list nodes
-    //iterator required due to unindexed list
-    //use a for loop to compare the data
-    //could use a boolean variable 'found'
-    //final statement - return found
     public boolean contains(Object item) {
         boolean found = false;
+        //check if list is empty
         if (size == 0) {
             return found;
         } else {
             ListNode compare = head;
-
-            //iterates through the whole list
-            for(int i = 1; i < size; i++) {
-                //equality check
-                if (compare.getData() == item) {
-                    found = true;
-                }
+            int i = 0;
+            //iterate through list until data node has been found
+            while(!found && i < size) {
+                found = compare.getData().equals(item);
                 compare = compare.getNext();
+                i++;
             }
             return found;
         }
@@ -96,63 +79,55 @@ public class LinkedList
 
     /**
      * Remove the nth element in the list
+     * @param n position of node to remove from list
      */
-    //first check if the list is empty
-    //then check if n is within bounds
-    //find the node BEFORE and AFTER nth node using for loop
-    //change pointers of BEFORE and NTH node
-    //decrement size
-    //note: an empty header node is used to simplify loop
     public void remove(int n) {
-        if (size != 0) {
-            if (n < 0 || n >= size) {
-                System.out.println("Out of bounds.");
-            } else if (n == 0) {
-                removeFirst();
-            } else {
-                ListNode prev = header;
-                for(int i = 0; i < n; i++) {
-                    prev = prev.getNext();
-                }
-                ListNode nth = prev.getNext();
-                prev.setNext(nth.getNext());
-                nth.setNext(null);
-                --size;
+        if (size == 0 || n < 0 || n > size-1) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            ListNode header = new ListNode(null, head);
+            ListNode before = header;
+
+            for(int i = 0; i < size; i++) {
+                before = before.getNext();
             }
 
-        } else {
-            System.out.println("Error - List is empty");
+            ListNode current = before.getNext();
+            //checks if nth node was the last
+            if (n == size) {
+                before.setNext(null);
+            } else {
+                before.setNext(current.getNext());
+            }
+            current.setNext(null);
+            size--;
+            //checks if nth node was the first
+            if(size == 0) {
+                head = null;
+            } else {
+                head = header.getNext();
+            }
         }
     }
 
     /**
      * Add a new item as a new ListNode to the nth position in the list
-     * @param n position to add new element
+     * @param n position to add new element node
      * @param item new data element to add
      */
-    //first check if n is within bounds - error?
-    //if n is 1, use addFirst()
-    //create a new ListNode with item and null pointer
-    //for loop - iterate until the node BEFORE nth node (n - 1)
-    //find and assign 2 nodes (BEFORE and AFTER nth position) to a variable for reference
-    //change BEFORE pointer to nth node, change nth node pointer to AFTER node
-    //increment size
-
     public void addAt(int n, Object item) {
-        if (n > size) {
-            System.out.println("Out of bounds.");
-        } else if (n == 1) {
-            add(item);
+        if (n < 0 || n > size) {
+            throw new IndexOutOfBoundsException();
         } else {
+            ListNode header = new ListNode(null, head);
             ListNode prev = header;
-            for(int i = 1; i < n; i++) {
+            for(int i = 0; i < n; i++) {
                 prev = prev.getNext();
             }
-            ListNode nth = new ListNode(item, null);
+            //changes the pointer of previous and new item
             ListNode after = prev.getNext();
-            //change pointers
-            prev.setNext(nth);
-            nth.setNext(after);
+            prev.setNext(new ListNode(item, after));
+            head = header.getNext();
             size++;
         }
     }
@@ -161,22 +136,17 @@ public class LinkedList
      * Returns a list of all the current items in reverse order
      * @return LinkedList of items in reverse order
      */
-    //create a new empty list to store items in reverse order
-    //check if current list is empty
-    //for loop - iterate down the list until last node
-    //create local variables to store/copy list items
-    //for each element in the list, add it to the head of the new list
-    //increment size? (handled by add method!!!)
     public LinkedList reverse() {
         LinkedList reverseList = new LinkedList();
-
+        //checks if list is empty
         if (size == 0) {
             return reverseList;
         } else {
-            ListNode copy = header;
+            //start copying at head node
+            ListNode copy = head;
             for(int i = 0; i < size; i++) {
-                copy = copy.getNext();
                 reverseList.add(copy.getData());
+                copy = copy.getNext();
             }
         }
         return reverseList;
