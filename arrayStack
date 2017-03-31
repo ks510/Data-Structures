@@ -1,0 +1,121 @@
+import java.util.NoSuchElementException;
+/**
+ * Array-based implementation of a FIFO stack that resizes upon
+ * overflow of the stack.
+ * @author Karen Suen
+ * @version March 2017
+ */
+
+public class Stack {
+    private static int DEFAULT_CAPACITY = 5;
+    private Object[] theArray;
+    private int topOfStack;
+
+    /**
+     * Construct the stack.
+     */
+    public Stack() {
+        theArray = new Object[ DEFAULT_CAPACITY ];
+        topOfStack = -1;
+    }
+
+    /**
+     * Remove the most recently inserted item in the stack.
+     * @return the most recently inserted item in the stack.
+     * @throws UnderflowException if the stack is empty.
+     */
+    public Object pop( ) {
+        if( topOfStack < 0 ) {
+            throw new NoSuchElementException("Stack is empty");
+        } else {
+            Object topElement = theArray[ topOfStack ];
+            topOfStack--;
+
+            return topElement;
+        }
+    }
+
+    /**
+     * Insert a new item into the stack. Deals with overflow
+     * by doubling the array and copying items into new array
+     * @param newElement the item to insert.
+     */
+    public void push( Object newElement ) {
+        if( topOfStack+1 == theArray.length ) {
+            Object[] temp = theArray;
+            doubleArray();
+            copyArray(temp, theArray);
+            //recursive method will further expand array if necessary
+            push(newElement);
+        } else {
+            theArray[ ++topOfStack ] = newElement;
+        }
+    }
+
+    //doubles the size of the array
+    private void doubleArray() {
+        DEFAULT_CAPACITY += DEFAULT_CAPACITY;
+        theArray = new Object[DEFAULT_CAPACITY];
+    }
+
+    //copies all elements from current array into new array
+    private void copyArray(Object[] source, Object[] doubledArray) {
+        System.arraycopy(source, 0, doubledArray, 0, source.length);
+    }
+
+    /**
+     * Checks if the stack is empty.
+     * @return true if stack is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        if (topOfStack == -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return total number of items in stack
+     */
+    public int size() {
+        return (topOfStack + 1);
+    }
+
+    /**
+     * @return the top item in the stack without removal
+     */
+    public Object top() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Stack is empty");
+        } else {
+            return theArray[topOfStack];
+        }
+    }
+
+    /**
+     * Exception class for access in empty stack
+     */
+    private class UnderflowException extends RuntimeException {
+        /**
+         * Construct this exception object.
+         * @param message the error message.
+         */
+        public UnderflowException(String msg) {
+            super(msg);
+        }
+    }
+
+    /**
+     * Exception class for access in full stack
+     */
+    private class OverflowException extends RuntimeException {
+        /**
+         * Construct this exception object.
+         * @param message the error message.
+         */
+        public OverflowException(String msg) {
+            super(msg);
+        }
+    }
+}
