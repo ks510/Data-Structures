@@ -82,19 +82,19 @@ public class LinkedList
      * @param n position of node to remove from list
      */
     public void remove(int n) {
-        if (size == 0 || n < 0 || n > size-1) {
+        if (size == 0 || n < 0 || n > size) {
             throw new IndexOutOfBoundsException();
         } else {
             ListNode header = new ListNode(null, head);
             ListNode before = header;
 
-            for(int i = 0; i < size; i++) {
+            for(int i = 1; i < n; i++) {
                 before = before.getNext();
             }
 
             ListNode current = before.getNext();
             //checks if nth node was the last
-            if (n == size) {
+            if (current.getNext() == null) {
                 before.setNext(null);
             } else {
                 before.setNext(current.getNext());
@@ -116,12 +116,12 @@ public class LinkedList
      * @param item new data element to add
      */
     public void addAt(int n, Object item) {
-        if (n < 0 || n > size) {
+        if (n < 0 || n > size+1) {
             throw new IndexOutOfBoundsException();
         } else {
             ListNode header = new ListNode(null, head);
             ListNode prev = header;
-            for(int i = 0; i < n; i++) {
+            for(int i = 1; i < n; i++) {
                 prev = prev.getNext();
             }
             //changes the pointer of previous and new item
