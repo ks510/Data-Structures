@@ -1,0 +1,76 @@
+import java.util.NoSuchElementException;
+/**
+ * Queue implementation using a singly linked list
+ * 
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class sLinkedQueue
+{
+    private ListNode front;
+    private ListNode rear;
+    private int size;
+
+    /**
+     * Constructor for objects of class sLinkedQueue
+     */
+    public sLinkedQueue()
+    {
+        front = null;
+        rear = null;
+        size = 0;
+    }
+
+    /**
+     * Add an element to the rear of the queue
+     * @param e data element to add
+     */
+    public void enqueue(Object e)
+    {
+        if (isEmpty()) {
+            front = new ListNode(e, null);
+            rear = front;
+        } else {
+            rear.setNext(new ListNode(e, null));
+            rear = rear.getNext();
+        }
+        size++;
+    }
+    
+    /**
+     * Remove and return the front element of the queue
+     * unless the queue is empty
+     */
+    public Object dequeue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        } else if (front == rear) {
+            rear = null;
+        }
+        ListNode temp = front;
+        front.setNext(temp.getNext());
+        front = front.getNext();
+        size--;
+        temp.setNext(null);
+        
+        return temp.getData();
+    }
+    
+    /**
+     * Returns the front element of the queue without removal
+     */
+    public Object front() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return front.getData();
+    }
+    
+    public int size() {
+        return size;
+    }
+    
+    public boolean isEmpty() {
+        return size == 0;
+    }
+}
