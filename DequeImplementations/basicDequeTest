@@ -1,0 +1,61 @@
+
+/**
+ * Basic Test class for Deque Implementations
+ * 
+ * @author Karen Suen 
+ * @version March 2017
+ */
+public class testQueue
+{
+    private arrayDeque q1;
+
+    /**
+     * Constructor for objects of class testQueue
+     */
+    public testQueue()
+    {
+        q1 = new arrayDeque();
+    }
+
+    /**
+     * Add n amount of integer elements to front of deque
+     * @param n number of elements to add
+     */
+    public void addFirstTest(int n)
+    {
+        for(int i = 0; i < n; i++) {
+            q1.addFirst(i);
+        }
+    }
+    
+    /**
+     * Add n amount of integer elements to rear of deque
+     * @param n number of elements to add
+     */
+    public void addLastTest(int n)
+    {
+        for(int i = 0; i < n; i++) {
+            q1.addLast(i);
+        }
+    }
+    
+    /**
+     * Remove and return n elements from front of deque
+     * @param n number of elements to remove
+     */
+    public void removeFirstTest(int n) {
+        for(int i = 0; i < n; i++) {
+            q1.removeFirst();
+        }
+    }
+    
+    /**
+     * Remove and return n elements from rear of deque
+     * @param n number of elements to remove
+     */
+    public void removeLastTest(int n) {
+        for(int i = 0; i < n; i++) {
+            q1.removeLast();
+        }
+    }
+}
