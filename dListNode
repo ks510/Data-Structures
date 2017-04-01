@@ -1,9 +1,11 @@
 /**
  * dListNode implements a node for a doubly-linked list
+ * @author Karen Suen
+ * @version March 2017
  */
 public class dListNode
 {
-    // A node stores data and a pointer to the previous and next node 
+    //node stores data, previous pointer and next pointer
     private Object data;
     private dListNode next;
     private dListNode prev;
@@ -13,15 +15,15 @@ public class dListNode
      * @param Object data
      * @param dListNode next
      */
-    dListNode(Object data, dListNode prev, dListNode next) {
+    public dListNode(Object data, dListNode prev, dListNode next) {
         this.data = data;
         this.prev = prev;
         this.next = next;
     }
 
     /**
-     * Set the next node to be the given node
-     * @param dListNode node
+     * Set the next pointer of the node to specified node
+     * @param node Next node to set
      */
     public void setNext(dListNode node) {
         next = node;
@@ -36,8 +38,8 @@ public class dListNode
     }
     
     /**
-     * Set the previous node to the given node
-     * @param node Previous node
+     * Set the previous pointer of the node to specified node
+     * @param node Previous node to set
      */
     public void setPrev(dListNode node) {
         prev = node;
@@ -53,10 +55,14 @@ public class dListNode
     
     /**
      * Get the data element of the node
-     * @return Object data
+     * @return Object data element at node
      */
     public Object getData() {
         return data;
+    }
+    
+    public void setData(Object data) {
+        this.data = data;
     }
 
 }
