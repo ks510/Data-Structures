@@ -1,19 +1,19 @@
 /**
- * ListNode implements a node for a doubly-linked list
+ * dListNode implements a node for a doubly-linked list
  */
-public class ListNode
+public class dListNode
 {
     // A node stores data and a pointer to the previous and next node 
     private Object data;
-    private ListNode next;
-    private ListNode prev;
+    private dListNode next;
+    private dListNode prev;
 
     /**
      * Construct a new node with the given data and pointers
      * @param Object data
-     * @param ListNode next
+     * @param dListNode next
      */
-    ListNode(Object data, ListNode prev, ListNode next) {
+    dListNode(Object data, dListNode prev, dListNode next) {
         this.data = data;
         this.prev = prev;
         this.next = next;
@@ -21,17 +21,17 @@ public class ListNode
 
     /**
      * Set the next node to be the given node
-     * @param ListNode node
+     * @param dListNode node
      */
-    public void setNext(ListNode node) {
+    public void setNext(dListNode node) {
         next = node;
     }
 
     /**
      * Get the next node
-     * @return the next ListNode
+     * @return the next dListNode
      */
-    public ListNode getNext() {
+    public dListNode getNext() {
         return next;
     }
     
@@ -39,15 +39,15 @@ public class ListNode
      * Set the previous node to the given node
      * @param node Previous node
      */
-    public void setPrev(ListNode node) {
+    public void setPrev(dListNode node) {
         prev = node;
     }
     
     /**
      * Get the previous node
-     * @return the previous ListNode
+     * @return the previous dListNode
      */
-    public ListNode getPrev() {
+    public dListNode getPrev() {
         return prev;
     }
     
