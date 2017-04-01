@@ -1,0 +1,120 @@
+import java.util.NoSuchElementException;
+/**
+ * Array-based implementation of deques
+ * 
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class arrayDeque
+{
+    private Object[] arrayDeque;
+    private static int DEFAULT_CAPACITY = 4;
+    private int front;
+    private int rear;
+    private int size;
+
+    /**
+     * Constructor for objects of class arrayDeque
+     */
+    public arrayDeque()
+    {
+        arrayDeque = new Object[DEFAULT_CAPACITY];
+        front = 0;
+        rear = 0;
+        size = 0;
+    }
+    
+    /**
+     * Adds an element to the front of the deque unless full
+     * @param e Data element to add to the deque
+     */
+    public void addFirst(Object e) {
+        if (size == arrayDeque.length) {
+            doubleQueue();
+            System.out.println("Queue has been doubled");
+        }
+        front = decrement(front);
+        arrayDeque[front] = e;
+        size++;
+    }
+    
+    /**
+     * Adds an element to the rear of the deque unless full
+     * @param e Data element to add to the deque
+     */
+    public void addLast(Object e) {
+        if (size == arrayDeque.length) {
+            doubleQueue();
+            System.out.println("Queue has been doubled");
+        }
+        arrayDeque[rear] = e;
+        rear = increment(rear);
+        size++;
+    }
+
+    //doubles the size of array and copies all elements
+    private void doubleQueue() {
+        Object[] temp = arrayDeque;
+        arrayDeque = new Object[temp.length * 2];
+
+        for (int i = 0; i < temp.length; i++, front = increment(front)) {
+            arrayDeque[i] = temp[front];
+        }
+        
+        front = 0;
+        rear = temp.length;
+    }
+
+    /**
+     * Remove and return the front element of the deque
+     * unless it is empty
+     * @return data element at the front of the deque
+     */
+    public Object removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        } else {
+            Object temp = arrayDeque[front];
+            front = increment(front);
+            size--;
+            return temp;
+        }
+    }
+    
+    /**
+     * Remove and return the rear element of the deque
+     * unless it is empty
+     * @return data element at the rear of deque
+     */
+    public Object removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        } else {
+            Object temp = arrayDeque[rear];
+            rear = decrement(rear);
+            size--;
+            return temp;
+        }
+    }
+
+    //handles wrapping the deque around array
+    //when incrementing the index
+    private int increment(int index) {
+        return ++index % arrayDeque.length;
+    }
+    
+    //handles wrapping the deque around array
+    //when decrementing the index
+    private int decrement(int index) {
+        return (--index + arrayDeque.length) % arrayDeque.length;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+}
