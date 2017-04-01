@@ -1,0 +1,110 @@
+import java.util.NoSuchElementException;
+
+/**
+ * Deque implementation using a doubly linked list
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class dLinkedDeque
+{
+    private dListNode front;
+    private dListNode rear;
+    private int size;
+
+    /**
+     * Constructor for objects of class dLinkedDeque
+     */
+    public dLinkedDeque()
+    {
+        front = null;
+        rear = null;
+        size = 0;
+    }
+
+    /**
+     * Adds a new data element at the front of the deque
+     * @param e data element to add
+     */
+    public void addFirst(Object e)
+    {
+        if (isEmpty()) {
+            front = new dListNode(e, null, null);
+            rear = front;
+        } else {
+            front.setPrev(new dListNode(e, null, front));
+            front = front.getPrev();
+        }
+        size++;
+    }
+
+    /**
+     * Adds a new data element at the front of the deque
+     * @param e data element to add
+     */
+    public void addLast(Object e){
+        if (isEmpty()) {
+            rear = new dListNode(e, null, null);
+            front = rear;
+        } else {
+            rear.setNext(new dListNode(e, rear, null));
+            rear = rear.getNext();
+        }
+        size++;
+    }
+
+    /**
+     * Remove and return the front element of the deque
+     * @return data at the front element of deque
+     */
+    public Object removeFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Deque is empty");
+        }
+        dListNode temp = front;
+        front = temp.getNext();
+        front.setPrev(null);
+        temp.setNext(null);
+        size--;
+
+        return temp.getData();
+    }
+    
+    /**
+     * Remove and return the rear element of the deque
+     * @return data at the rear element of deque
+     */
+    public Object removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Deque is empty");
+        }
+        dListNode temp = rear;
+        rear = temp.getPrev();
+        rear.setNext(null);
+        temp.setPrev(null);
+        size--;
+
+        return temp.getData();
+    }
+
+    /**
+     * @return data at the front of the deque without removal
+     */
+    public Object front() {
+        return front;
+    }
+
+    /**
+     * @return data at the rear of the deque without removal
+     */
+    public Object rear() {
+        return rear;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+}
