@@ -1,0 +1,83 @@
+import java.util.NoSuchElementException;
+/**
+ * Array-based implementation of queues
+ * 
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class arrayQueue
+{
+    private Object[] arrayQueue;
+    private static int DEFAULT_CAPACITY = 4;
+    private int front;
+    private int rear;
+    private int size;
+
+    /**
+     * Constructor for objects of class arrayQueue
+     */
+    public arrayQueue()
+    {
+        arrayQueue = new Object[DEFAULT_CAPACITY];
+        front = 0;
+        rear = 0;
+        size = 0;
+    }
+
+    /**
+     * Adds an element to the rear of the queue unless full
+     * @param e Data element to add to the queue
+     */
+    public void enqueue(Object e) {
+        if (size == arrayQueue.length) {
+            doubleQueue();
+            System.out.println("Queue has been doubled");
+        }
+        arrayQueue[rear] = e;
+        rear = increment(rear);
+        size++;
+    }
+
+    //doubles the size of array and copies all elements
+    private void doubleQueue() {
+        Object[] temp = arrayQueue;
+        arrayQueue = new Object[temp.length * 2];
+
+        for (int i = 0; i < temp.length; i++, front = increment(front)) {
+            arrayQueue[i] = temp[front];
+        }
+        
+        front = 0;
+        rear = temp.length;
+    }
+
+    /**
+     * Remove and return the front element of the queue
+     * unless it is empty
+     * @return data element at the front of the queue
+     */
+    public Object dequeue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        } else {
+            Object temp = arrayQueue[front];
+            front = increment(front);
+            size--;
+            return temp;
+        }
+    }
+
+    //handles wrapping the queue around array
+    private int increment(int index) {
+        return ++index % arrayQueue.length;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+}
