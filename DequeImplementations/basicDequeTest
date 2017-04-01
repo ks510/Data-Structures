@@ -5,16 +5,16 @@
  * @author Karen Suen 
  * @version March 2017
  */
-public class testQueue
+public class testDeque
 {
-    private arrayDeque q1;
+    private Deque d1;
 
     /**
      * Constructor for objects of class testQueue
      */
-    public testQueue()
+    public testDeque()
     {
-        q1 = new arrayDeque();
+        d1 = new Deque();
     }
 
     /**
@@ -24,7 +24,7 @@ public class testQueue
     public void addFirstTest(int n)
     {
         for(int i = 0; i < n; i++) {
-            q1.addFirst(i);
+            d1.addFirst(i);
         }
     }
     
@@ -35,7 +35,7 @@ public class testQueue
     public void addLastTest(int n)
     {
         for(int i = 0; i < n; i++) {
-            q1.addLast(i);
+            d1.addLast(i);
         }
     }
     
@@ -45,7 +45,7 @@ public class testQueue
      */
     public void removeFirstTest(int n) {
         for(int i = 0; i < n; i++) {
-            q1.removeFirst();
+            d1.removeFirst();
         }
     }
     
@@ -55,7 +55,7 @@ public class testQueue
      */
     public void removeLastTest(int n) {
         for(int i = 0; i < n; i++) {
-            q1.removeLast();
+            d1.removeLast();
         }
     }
 }
