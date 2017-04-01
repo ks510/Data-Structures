@@ -61,6 +61,10 @@ public class dListNode
         return data;
     }
     
+    /**
+     * Replace the data in the current node with new data
+     * @param data element to put at the node
+     */
     public void setData(Object data) {
         this.data = data;
     }
