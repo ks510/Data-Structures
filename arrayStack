@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  */
 
 public class Stack {
-    private static int DEFAULT_CAPACITY = 5;
+    private static final int DEFAULT_CAPACITY = 5;
     private Object[] theArray;
     private int topOfStack;
 
@@ -54,8 +54,8 @@ public class Stack {
 
     //doubles the size of the array
     private void doubleArray() {
-        DEFAULT_CAPACITY += DEFAULT_CAPACITY;
-        theArray = new Object[DEFAULT_CAPACITY];
+        int currentSize = theArray.length;
+        theArray = new Object[currentSize*2];
     }
 
     //copies all elements from current array into new array
