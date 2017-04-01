@@ -1,0 +1,38 @@
+
+/**
+ * Test class for sLinkedQueue
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class testClass
+{
+    private sLinkedQueue q1;
+
+    /**
+     * Constructor for objects of class testClass
+     */
+    public testClass()
+    {
+       q1 = new sLinkedQueue();
+    }
+
+    /**
+     * Attempts to add n amount of integer elements to queue
+     * @param n amount of data elements to add
+     */
+    public void enqueueTest(int n) {
+        for(int i = 0; i < n; i++) {
+            q1.enqueue(i);
+        }
+    }
+    
+    /**
+     * Attempts to remove n amount of elements from queue
+     * @param n amount of data elements to remove
+     */
+    public void dequeueTest(int n) {
+        for(int i = 0; i < n; i++) {
+            q1.dequeue();
+        }
+    }
+}
