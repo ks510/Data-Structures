@@ -1,8 +1,10 @@
-//ListNode implements a node for a singly-linked list
+/**
+* ListNode implements a node for a singly-linked list
+* @author Karen Suen
+* @version March 2017
+**/
 
-public class ListNode
-{
-    // A node stores some data and a pointer to the next node 
+public class ListNode {
     private Object data;
     private ListNode next;
 
@@ -17,7 +19,7 @@ public class ListNode
     }
 
     /**
-     * Set the next node to be the given node
+     * Set the next pointer to the specified node
      * @param ListNode node
      */
     public void setNext(ListNode node) {
