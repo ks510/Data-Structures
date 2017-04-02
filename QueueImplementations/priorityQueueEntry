@@ -1,0 +1,30 @@
+
+/**
+ * Entry object that contains a key and value
+ * 
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class Entry
+{
+    private int key;
+    private Object value;
+
+    /**
+     * Constructor for objects of class Entry
+     */
+    public Entry(int key, Object value)
+    {
+       this.key = key;
+       this.value = value;
+    }
+
+    public int getKey() {
+        return key;
+    }
+    
+    public Object getValue() {
+        return value;
+    }
+        
+}
