@@ -1,0 +1,69 @@
+
+/**
+ * Basic test class for a priority queue
+ * @author Karen Suen
+ * @version March 2017
+ */
+public class PriorityQueueTest
+{
+    private PriorityQueue pqueue;
+
+    /**
+     * Constructor for objects of class PriorityQueueTest
+     */
+    public PriorityQueueTest()
+    {
+        pqueue = new PriorityQueue();
+    }
+
+    /**
+     * Adds one data element with specified key to the queue
+     * @param k integer value of new data to add
+     * @param data String data to add (differentiate elements)
+     **/
+    public void insertOneKeyTest(int k, String data) {
+        pqueue.insert(k, data);
+    }
+    
+    /**
+     * Adds multiple data elements with incrementing integer
+     * key values of the specified range
+     * @param start first integer key value to add to queue
+     * @param end last integer key value to add to queue
+     * @param data String data to add (differentiate elements)
+     */
+    public void insertMoreKeysTest(int start, int end, String data) {
+        for (int i = start; i < end; i++) {
+            pqueue.insert(i, data);
+        }
+    }
+    
+    /**
+     * Remove and return n elements of the highest priority
+     * (lowest integer key value)
+     * @param n number of elements to remove
+     */
+    public void removeMinTest(int n) {
+        for (int i = 0; i < n; i++) {
+            pqueue.removeMin();
+        }
+    }
+    
+    /**
+     * Prints a string representation of the priority queue
+     */
+    public void printPQueue() {
+        String s = "List of elements in sorted priority queue\n";
+        int size = pqueue.size();
+        PriorityQueue temp = pqueue;
+        for(int i = 0; i < size; i++) {
+            Entry current = temp.removeMin();
+            //String add = (String) current.getValue();
+            s += "Key: " + current.getKey() + " " + "Data: "
+                                + current.getValue() + "\n";
+        }
+        
+        System.out.println(s);
+    }
+    
+}
