@@ -1,0 +1,72 @@
+/**
+* ListNode implements a node for a binary tree backed by
+* a singly linked list
+* @author Karen Suen
+* @version March 2017
+**/
+
+public class ListNode {
+    private Object data;
+    private ListNode leftChild;
+    private ListNode rightChild;
+
+    /**
+     * Construct a new node with the given data and pointer
+     * @param Object data
+     * @param ListNode leftChild
+     */
+    ListNode(Object data, ListNode next) {
+        this.data = data;
+        this.leftChild = null;
+        this.rightChild = null;
+    }
+
+    /**
+     * Set the left child pointer to the specified node
+     * @param node left child of current node
+     */
+    public void setLeft(ListNode node) {
+        leftChild = node;
+    }
+    
+    /**
+     * Set the right child pointer to the specified node
+     * @param node right child of current node
+     */
+    public void setRight(ListNode node) {
+        rightChild = node;
+    }
+
+    /**
+     * Get the left child node of the current node
+     * @return left child node
+     */
+    public ListNode getLeft() {
+        return leftChild;
+    }
+    
+    /**
+     * Get the left child node of the current node
+     * @return right child node
+     */
+    public ListNode getRight() {
+        return rightChild;
+    }
+    
+    /**
+     * Get the data element of the node
+     * @return Object data
+     */
+    public Object getData() {
+        return data;
+    }
+    
+    /**
+     * Replace the data in the current node with new data
+     * @param data new data to replace current data with
+     */
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+}
