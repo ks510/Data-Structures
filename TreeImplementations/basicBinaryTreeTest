@@ -1,0 +1,56 @@
+
+/**
+ * Basic test class for a binary tree and traversal methods.
+ * 
+ * @author Karen Suen
+ * @version April 2017
+ */
+public class TestClass
+{
+    private BinaryTree tree;
+
+    /**
+     * Constructor for objects of class TestClass
+     */
+    public TestClass()
+    {
+        tree = new BinaryTree();
+    }
+
+    /**
+     * Builds a simple tree with 3 nodes to illustrate
+     * the arithmetic expression: 1 + 2.
+     */
+    public void buildSimpleTree() throws Exception {
+        tree.setRoot(new String("+"));
+        tree.insertLeft(new String("1"), tree.getRoot());
+        tree.insertRight(new String("2"), tree.getRoot());
+    }
+    
+    /**
+     * Prints a string representation of the nodes in
+     * preorder traversal.
+     */
+    public void preorderTraverse() {
+        String s = tree.preorderTraverse(tree.getRoot());
+        System.out.println(s);
+    }
+    
+    /**
+     * Prints a string representation of the nodes in
+     * postorder traversal.
+     */
+    public void postorderTraverse() {
+        String s = tree.postorderTraverse(tree.getRoot());
+        System.out.println(s);
+    }
+    
+    /**
+     * Prints a string representation of the nodes in
+     * inorder traversal.
+     */
+    public void inorderTraverse() {
+        String s = tree.inorderTraverse(tree.getRoot());
+        System.out.println(s);
+    }
+}
