@@ -1,0 +1,226 @@
+import java.util.NoSuchElementException;
+/**
+ * A binary tree implementation backed by a doubly linked
+ * list of nodes that contain the data element and pointers
+ * to illustrate the parent-child relationship of a Tree ADT.
+ * @author Karen Suen
+ * @version April 2017
+ */
+public class BinaryTree {
+    private TreeNode root;
+    private int size;
+
+    /**
+     * Constructor for an empty Binary Tree structure.
+     */
+    public BinaryTree()
+    {
+        root = null;
+        size = 0;
+    }
+
+    /**
+     * Get the root node of the binary tree.
+     * @return root node
+     */
+    public TreeNode getRoot() {
+        return root;
+    }
+    
+    /**
+     * Gets the parent node of n unless it is the root node
+     * and throws an error instead.
+     * @return the parent node of n
+     */
+    public TreeNode getParent(TreeNode n) {
+        if (isRoot(n)) {
+            throw new NoSuchElementException("Root node cannot have a parent");
+        }
+        return n.getParent();
+    }
+    
+    /**
+     * Get the children nodes of n.
+     * @return an array of the children nodes of n
+     */
+    public TreeNode[] children(TreeNode n) {
+        TreeNode[] children = new TreeNode[2];
+        if (!hasLeft(n)) {
+            children[0] = n.getLeft();
+        }
+        if (!hasRight(n)) {
+            children[1] = n.getRight();
+        }
+        return children;
+    }
+    
+    /**
+     * Checks if node n is the root node of the binary tree.
+     * @return true if n is the root node, false otherwise
+     */
+    public boolean isRoot(TreeNode n) {
+        return n == getRoot();
+    }
+    
+    /**
+     * Checks if the node n is an external node.
+     * @return true if n is an external node, false otherwise
+     */
+    public boolean isLeaf(TreeNode n) {
+        return (n.getLeft() == null) && (n.getRight() == null);
+    }
+    
+    /**
+     * Sets a node as the root of the tree if it is empty
+     * @return root node
+     */
+    public TreeNode setRoot(Object data) throws Exception {
+        if(isEmpty()) {
+            root = new TreeNode(data);
+            size = 1;
+            return root;
+        } else {
+            throw new Exception("A root already exists");
+        }
+    }
+    
+    /**
+     * Get the left child node of n or throw an error if null.
+     * @return left child node
+     */
+    public TreeNode getLeft(TreeNode n) {
+        if (hasLeft(n)) {
+            return n.getLeft();
+        } else {
+            throw new NoSuchElementException("No Left Child");
+        }
+    }
+    
+    /**
+     * Get the right child node of n or throw an error if null.
+     * @return right child node
+     */
+    public TreeNode getRight(TreeNode n) {
+        if (hasLeft(n)) {
+            return n.getRight();
+        } else {
+            throw new NoSuchElementException("No Right Child");
+        }
+    }
+    
+    /**
+     * Insert the new data element to the left of node n. If a 
+     * left child already exists for n, throw an error.
+     * @return new node inserted into the tree
+     */
+    public TreeNode insertLeft(Object data, TreeNode n) throws Exception {
+        if (!hasLeft(n)) {
+            TreeNode toInsert = new TreeNode(data);
+            n.setLeft(toInsert);
+            toInsert.setParent(n);
+            size++;
+            return toInsert;
+        } else {
+            throw new Exception("A left child already exists");
+        }
+    }
+    
+    /**
+     * Insert new data element to the right of node n. If a right child
+     * already exists for n, throw an error.
+     * @return new node inserted into the tree
+     */    
+    public TreeNode insertRight(Object data, TreeNode n) throws Exception {
+        if (!hasRight(n)) {
+            TreeNode toInsert = new TreeNode(data);
+            n.setRight(toInsert);
+            toInsert.setParent(n);
+            size++;
+            return toInsert;
+        } else {
+            throw new Exception("A left child already exists");
+        }
+    }
+    
+    /**
+     * Checks if node n has a left child node.
+     * @return true if left child exists, false otherwise
+     */
+    public boolean hasLeft(TreeNode n) {
+        return n.getLeft() != null;
+    }
+    
+    /**
+     * Checks if node n has a right child node.
+     * @return true if right child exists, false otherwise
+     */
+    public boolean hasRight(TreeNode n) {
+        return n.getRight() != null;
+    }
+    
+    /**
+     * Get the size of the binary tree.
+     * @return total nodes in the tree
+     */
+    public int size() {
+        return size;
+    }
+    
+    /**
+     * Check if the binary tree is empty or not.
+     * @return true if the tree is empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    /**
+     * Performs a preorder traversal of all of the nodes in
+     * the binary tree and prints the string representation
+     * of the data at each node in the traversal order.
+     * @return string of data at each tree node
+     */
+    public String preorderTraverse(TreeNode n) {
+        String s = "";
+        if (n != null) {
+            s += n.getData().toString() + " ";
+            s += preorderTraverse(n.getLeft());
+            s += preorderTraverse(n.getRight());
+        }
+        return s;
+    }
+    
+    /**
+     * Performs a postorder traversal of all of the nodes in
+     * the binary tree and prints the string representation
+     * of the data at each node in the traversal order.
+     * @return string of data at each tree node
+     */
+    public String postorderTraverse(TreeNode n) {
+        String s = "";
+        if (n != null) {
+            s += postorderTraverse(n.getLeft());
+            s += postorderTraverse(n.getRight());
+            s += n.getData().toString() + " ";
+        }
+        return s;
+    }
+    
+    /**
+     * Performs a inorder traversal of all of the nodes in
+     * the binary tree and prints the string representation
+     * of the data at each node in the traversal order.
+     * @return string of data at each tree node
+     */
+    public String inorderTraverse(TreeNode n) {
+        String s = "";
+        if (n != null) {
+            s += postorderTraverse(n.getLeft());
+            s += n.getData().toString() + " ";
+            s += postorderTraverse(n.getRight());
+        }
+        return s;
+    }
+    
+    
+}
