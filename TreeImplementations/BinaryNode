@@ -1,31 +1,34 @@
 /**
-* ListNode implements a node for a binary tree backed by
-* a singly linked list
+* Tree node for a binary list tree
 * @author Karen Suen
-* @version March 2017
+* @version April 2017
 **/
 
-public class ListNode {
+public class TreeNode {
     private Object data;
-    private ListNode leftChild;
-    private ListNode rightChild;
+    private TreeNode leftChild;
+    private TreeNode rightChild;
+    private TreeNode parent;
 
     /**
-     * Construct a new node with the given data and pointer
+     * Construct a new node with the given data and node pointers
      * @param Object data
-     * @param ListNode leftChild
+     * @param leftChild node
+     * @param rightChild node
+     * @param parent
      */
-    ListNode(Object data, ListNode next) {
+    public TreeNode(Object data) {
         this.data = data;
         this.leftChild = null;
         this.rightChild = null;
+        this.parent = null;
     }
 
     /**
      * Set the left child pointer to the specified node
      * @param node left child of current node
      */
-    public void setLeft(ListNode node) {
+    public void setLeft(TreeNode node) {
         leftChild = node;
     }
     
@@ -33,15 +36,23 @@ public class ListNode {
      * Set the right child pointer to the specified node
      * @param node right child of current node
      */
-    public void setRight(ListNode node) {
+    public void setRight(TreeNode node) {
         rightChild = node;
+    }
+    
+    /**
+     * Set the parent node to the specified node
+     * @param node parent
+     */
+    public void setParent(TreeNode node) {
+        parent = node;
     }
 
     /**
      * Get the left child node of the current node
      * @return left child node
      */
-    public ListNode getLeft() {
+    public TreeNode getLeft() {
         return leftChild;
     }
     
@@ -49,8 +60,16 @@ public class ListNode {
      * Get the left child node of the current node
      * @return right child node
      */
-    public ListNode getRight() {
+    public TreeNode getRight() {
         return rightChild;
+    }
+    
+    /**
+     * Get the parent node of the current node
+     * @return parent node
+     */
+    public TreeNode getParent() {
+        return parent;
     }
     
     /**
