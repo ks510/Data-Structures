@@ -1,0 +1,48 @@
+
+/**
+ * Basic test class for a a general tree and traversal methods.
+ * 
+ * @author Karen Suen
+ * @version April 2017
+ */
+public class TestClass
+{
+    private ListTree tree;
+
+    /**
+     * Constructor for objects of class TestClass
+     */
+    public TestClass()
+    {
+        tree = new ListTree();
+    }
+
+    /**
+     * Builds a simple tree with 3 nodes to illustrate
+     * the arithmetic expression: 1 + 2.
+     */
+    public void buildSimpleTree() throws Exception {
+        tree.setRoot(new String("+"));
+        tree.addChild(new String("1"), tree.getRoot());
+        tree.addChild(new String("2"), tree.getRoot());
+    }
+    
+    /**
+     * Prints a string representation of the nodes in
+     * preorder traversal.
+     */
+    public void preorderTraverse() {
+        String s = tree.preorderTraverse(tree.getRoot());
+        System.out.println(s);
+    }
+    
+    /**
+     * Prints a string representation of the nodes in
+     * postorder traversal.
+     */
+    public void postorderTraverse() {
+        String s = tree.postorderTraverse(tree.getRoot());
+        System.out.println(s);
+    }
+
+}
