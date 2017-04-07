@@ -11,11 +11,8 @@ public class TreeNode {
     private TreeNode parent;
 
     /**
-     * Construct a new node with the given data and node pointers
+     * Construct a new node with the given data.
      * @param Object data
-     * @param leftChild node
-     * @param rightChild node
-     * @param parent
      */
     public TreeNode(Object data) {
         this.data = data;
