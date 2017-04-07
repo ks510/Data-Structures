@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+
+/**
+* Tree node for a general Tree structure implementation
+* @author Karen Suen
+* @version April 2017
+**/
+
+public class TreeNode {
+    private Object data;
+    private ArrayList<TreeNode> children;
+    private TreeNode parent;
+
+    /**
+     * Construct a new node with the given data and placeholders
+     * for a parent pointer and a collection for children pointers.
+     * @param data element to store at the node
+     */
+    public TreeNode(Object data) {
+        this.data = data;
+        this.children = new ArrayList<TreeNode>();
+        this.parent = null;
+    }
+
+    /**
+     * Set node n as a child of the current node.
+     * @param child node
+     */
+    public void setChild(TreeNode n) {
+        children.add(n);
+    }
+    
+    
+    /**
+     * Set the parent node to the specified node.
+     * @param node parent
+     */
+    public void setParent(TreeNode n) {
+        parent = n;
+    }
+
+    /**
+     * @return a collection of pointers to the children nodes
+     */
+    public ArrayList<TreeNode> getChildren() {
+        return children;
+    }
+    
+    /**
+     * Get the parent node of the current node
+     * @return parent node
+     */
+    public TreeNode getParent() {
+        return parent;
+    }
+    
+    /**
+     * Get the data element of the node
+     * @return Object data
+     */
+    public Object getData() {
+        return data;
+    }
+    
+    /**
+     * Replace the data in the current node with new data
+     * @param data new data to replace current data with
+     */
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+}
