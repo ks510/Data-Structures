@@ -1,0 +1,134 @@
+import java.util.NoSuchElementException;
+import java.util.ArrayList;
+
+/**
+ * An implementation of the Tree ADT using a doubly linked list.
+ * 
+ * @author Karen Suen
+ * @version April 2017
+ */
+public class ListTree
+{
+    private TreeNode root;
+    private int size;
+
+    /**
+     * Constructor for objects of class ListTree
+     */
+    public ListTree()
+    {
+        this.root = null;
+        this.size = 0;
+    }
+
+    /**
+     * @return root node of the tree or throw an error if empty
+     */
+    public TreeNode getRoot() {
+        if(!isEmpty()) {
+            return root;
+        } else {
+            throw new NoSuchElementException("Tree is empty");
+        }
+    }
+
+    /**
+     * Add the new data element as the root node of the Tree 
+     * or throw an error if a root node already exists.
+     * @return root node of the tree
+     */
+    public TreeNode setRoot(Object data) throws Exception {
+        if(root == null) {
+            root = new TreeNode(data);
+            size = 1;
+            return root;
+        } else {
+            throw new Exception("A root already exists");
+        }
+    }
+
+    /**
+     * Adds the data element as a child of node n.
+     */
+    public void addChild(Object data, TreeNode n) {
+        TreeNode child = new TreeNode(data);
+        n.setChild(child);
+        child.setParent(n);
+        size++;
+    }
+
+    /**
+     * Checks if n is the root node.
+     * @return true if n is the root node, false otherwise
+     */
+    public boolean isRoot(TreeNode n) {
+        if(isEmpty()) {
+            throw new NoSuchElementException("Tree is empty");
+        } else {
+            return n == root;
+        }
+    }
+
+    /**
+     * @return children of node n as a collection
+     */
+    public ArrayList<TreeNode> getChildren(TreeNode n) {
+        return n.getChildren();
+    }
+
+    /**
+     * Checks if n is an external node.
+     * @return true if n is a leaf node, false otherwise
+     */
+    public boolean isLeaf(TreeNode n) {
+        ArrayList<TreeNode> children = n.getChildren();
+        for (TreeNode node : children) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Prints a string representation of the data elements in
+     * the tree upon preorder traversal.
+     * @return string of data elements in the tree
+     */
+    public String preorderTraverse(TreeNode n) {
+        String s = "";
+        if (n != null) {
+            ArrayList<TreeNode> children = n.getChildren();
+            s += n.getData() + " ";
+            for (TreeNode node : children) {
+                s += preorderTraverse(node);
+            }
+        }
+
+        return s;
+    }
+
+    /**
+     * Prints a string representation of the data elements in
+     * the tree upon postorder traversal.
+     * @return string of data elements in the tree
+     */
+    public String postorderTraverse(TreeNode n) {
+        String s = "";
+        if (n != null) {
+            ArrayList<TreeNode> children = n.getChildren();
+            for (TreeNode node : children) {
+                s += postorderTraverse(node);
+            }
+            s += n.getData() + " ";
+        }
+
+        return s;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+}
