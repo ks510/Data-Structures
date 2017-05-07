@@ -2,6 +2,8 @@
      * Performs a depth-first traversal of all vertices and edges in the graph
      * starting from the first vertex (index 0). The labels of the vertices and 
      * edges are printed upon traversal.
+     * @author Panchama
+     * @version May 2017
      */
     public void dftraverse() {
         labelGraph();
