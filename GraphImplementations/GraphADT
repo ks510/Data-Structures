@@ -1,19 +1,20 @@
 import java.util.ArrayList;
 
 /**
- * Graph API that implements all basic methods (not traversal) and uses ArrayList type for lists.
+ * A graph API that implements the basic operations except traversal methods and requires ArrayList type
+ * for all lists.
  * 
  * @author Panchama
- * @version April 2017
+ * @version May 2017
  */
 public interface GraphADT
 {
     /**
      * Insert a new vertex with name n into the graph. Return the new vertex object
-     * @param n String
+     * @param n Object
      * @return the new Vertex
      */
-    public Vertex insertVertex(String n);
+    public Vertex insertVertex(Object n);
     
     /**
      * Remove the given vertex from the graph. The name of the vertex is returned, or null if the 
@@ -21,17 +22,17 @@ public interface GraphADT
      * @param v Vertex
      * @return the name of the vertex or null.
      */
-    public String removeVertex(Vertex v);
+    public Object removeVertex(Vertex v);
     
     /**
      * Build a new edge with end vertices v and w and name n and insert into the graph. Return the new Edge object.
      * NB: The vertices u and v must already be in the graph.
      * @param v Vertex
      * @param w Vertex
-     * @param n String
+     * @param n Object
      * @return the new Edge
      */
-    public Edge insertEdge(Vertex v, Vertex w, String n);
+    public Edge insertEdge(Vertex v, Vertex w, Object n);
     
     /**
      * Remove the edge e from the graph. The name of the edge is returned (or null if the edge is not
@@ -39,7 +40,7 @@ public interface GraphADT
      * @param e the edge to be removed
      * @return the name or null if e does not exist
      */
-    public String removeEdge(Edge e);
+    public Object removeEdge(Edge e);
     
     /**
      * Return the endpoint vertex of edge e that is 'opposite' its other endpoint vertex v. Return null if e 
@@ -84,7 +85,7 @@ public interface GraphADT
      * @param n the new name
      * @return the old edge name
      */
-    public String rename(Vertex v, String n);  
+    public Object replaceData(Vertex v, Object n);  
 
     /**
      * Rename edge e as n; returns the old edge name
@@ -92,7 +93,7 @@ public interface GraphADT
      * @param n the new name
      * @return the old edge name
      */
-    public String rename(Edge e, String n);
+    public Object replaceData(Edge e, Object n);
 
 
 }
