@@ -1,0 +1,59 @@
+
+/**
+ * Implementation of an undirected edge in a graph that connects two vertices. The edge 
+ * can store data as well as a reference to the two connected vertices.
+ * @author Panchama
+ * @version April 2017
+ */
+public class Edge
+{
+    private Vertex v;
+    private Vertex w;
+    private Object data;
+
+    /**
+     * Creates an Edge object with the given data and endpoints.
+     * @param v endpoint of the edge
+     * @param w other endpoint of the edge
+     * @param data
+     */
+    public Edge(Vertex v, Vertex w, Object data) {
+        this.v = v;
+        this.w = w;
+        this.data = data;
+    }
+    
+    /**
+     * Return the first endpoint Vertex of the undirected Edge.
+     * @return an endpoint Vertex of the edge
+     */
+    public Vertex getV() {
+        return v;
+    }
+    
+    /**
+     * Return the second endpoint Vertex of the undirected Edge.
+     * @return an endpoint Vertex of the edge
+     */
+    public Vertex getW() {
+        return w;
+    }
+    
+    /**
+     * Return the data stored at the edge.
+     * @return data stored at edge
+     */
+    public Object getData() {
+        return data;
+    }
+    
+    /**
+     * Replace the data stored at the edge.
+     * @param data new data to store
+     */
+    public void setData(Object data) {
+        this.data = data;
+    }
+    
+
+}
