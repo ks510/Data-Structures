@@ -1,0 +1,483 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Stack;
+/**
+ * A Graph data structure implemented using an adjacency matrix structure
+ * to represent a Network of communication devices and channels. Depth-first
+ * traversal methods are backed by labelling data stored in HashMaps.
+ * 
+ * @author Panchama
+ * @version April 2017
+ */
+public class Graph implements GraphADT
+{
+    private Edge[][] matrix;
+    private ArrayList<Vertex> vertices;
+    private int totalVertices;
+    private HashMap<Vertex,Label> vertexLabels;
+    private HashMap<Edge,Label> edgeLabels;
+    private Stack<Edge> pathTrack;
+
+    /**
+     * A simple enum class for the list of possible label values of vertices and edges.
+     */
+    public enum Label {
+        UNEXPLORED, VISITED, DISCOVERY, BACK;
+    }
+
+    /**
+     * Creates an empty graph with no vertices or edges.
+     */
+    public Graph() {
+        matrix = new Edge[0][0];
+        vertices = new ArrayList<Vertex>();
+        totalVertices = 0;
+        vertexLabels = new HashMap<Vertex,Label>();
+        edgeLabels = new HashMap<Edge,Label>();
+        pathTrack = new Stack<Edge>();
+    }
+
+    /**
+     * Creates a graph representation of a network with the given list of
+     * vertices (communication devices) and edges (communication channels).
+     * @param vertices list of devices in the network
+     * @param edges list of channels in the network
+     */
+    public Graph(ArrayList<Vertex> vertices, ArrayList<Edge> edges) {
+        this.vertices = vertices;
+        this.totalVertices = vertices.size();
+        this.matrix = new Edge[totalVertices][totalVertices];
+
+        for (Edge e : edges) {
+            Vertex v = e.getDevice1();
+            Vertex w = e.getDevice2();
+            insertEdge(v, w, e.getName());
+        }
+
+        vertexLabels = new HashMap<Vertex,Label>();
+        edgeLabels = new HashMap<Edge,Label>();
+        pathTrack = new Stack<Edge>();
+    }
+
+    public Vertex insertVertex(String n) {
+        //adds the new vertex to the list
+        Vertex v = new Vertex(totalVertices, n);
+        vertices.add(v);
+        totalVertices++;
+
+        //expand and copy the matrix to accommodate the new vertex
+        Edge[][] updatedMatrix = new Edge[totalVertices][totalVertices];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] != null) {
+                    updatedMatrix[i][j] = matrix[i][j];
+                }
+            }
+        }
+        this.matrix = updatedMatrix;
+
+        return v;
+    }
+
+    public String removeVertex(Vertex v) {
+        if (!containsVertex(v)) {
+            return null;
+        }
+
+        int vIndex = v.getIndex();
+        //removes all incident edges of the vertex (row first then column)
+        for (int n = 0; n < matrix[vIndex].length; n++) {
+            matrix[vIndex][n] = null;
+        }
+        for (int n = 0; n < matrix.length; n++) {
+            matrix[n][vIndex] = null;
+        }
+        vertices.remove(v);
+        totalVertices--;
+
+        //shrink and copy the matrix
+        Edge[][] updatedMatrix = new Edge[totalVertices][totalVertices];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] != null) {
+                    if (i > vIndex && j > vIndex) {
+                        updatedMatrix[i-1][j-1] = matrix[i][j];
+                    } else if (i > vIndex && j <= vIndex) {
+                        updatedMatrix[i-1][j] = matrix[i][j];
+                    } else if (i <= vIndex && j > vIndex) {
+                        updatedMatrix[i][j-1] = matrix[i][j];
+                    } else {
+                        updatedMatrix[i][j] = matrix[i][j];
+                    }
+                }
+            }
+        }
+        matrix = updatedMatrix;
+        return v.getName();
+    }
+
+    public Edge insertEdge(Vertex v, Vertex w, String n) {
+        if (containsVertex(v) && containsVertex(w)) {
+            Edge e = new Edge(v, w, n);
+            int vIndex = v.getIndex();
+            int wIndex = w.getIndex();
+            //inserts the edge at both locations in the symmetrical matrix
+            matrix[vIndex][wIndex] = e;
+            matrix[wIndex][vIndex] = e;
+            return e;
+        } else {
+            System.out.println("Cannot add channel '" + n + "'. Unable to"
+                + " find one or both connected devices in the network");
+            return null;
+        }
+    }
+
+    public String removeEdge(Edge e) {
+        int vIndex = e.getDevice1().getIndex();
+        int wIndex = e.getDevice2().getIndex();
+        Edge removed = matrix[vIndex][wIndex];
+        if (removed != null) {
+            matrix[vIndex][wIndex] = null;
+            matrix[wIndex][vIndex] = null;
+            return removed.getName();
+        } else {
+            System.out.println("Channel doesn't exist between the devices.");
+            return null;
+        }
+    }
+
+    public Vertex opposite(Edge e, Vertex v) {
+        if (containsEdge(e)) {
+            if (e.getDevice1() == v) {
+                return e.getDevice2();
+            } else {
+                return e.getDevice1();
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<Vertex> vertices() {
+        return vertices;
+    }
+
+    public ArrayList<Edge> edges() {
+        ArrayList<Edge> edges = new ArrayList<Edge>();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = i; j < matrix[i].length; j++) {
+                if (matrix[i][j] != null) {
+                    edges.add(matrix[i][j]);
+                }
+            }
+        }
+        return edges;
+    }
+
+    public boolean areAdjacent(Vertex v, Vertex w) {
+        int vIndex = v.getIndex();
+        int wIndex = w.getIndex();
+        if (matrix[vIndex][wIndex] != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ArrayList<Edge> incidentEdges(Vertex v) {
+        int vIndex = v.getIndex();
+        ArrayList<Edge> incidentEdges = new ArrayList<Edge>();
+        for (int i = 0; i < matrix[vIndex].length; i++) {
+            if (matrix[vIndex][i] != null) {
+                incidentEdges.add(matrix[vIndex][i]);
+            }
+        }
+        return incidentEdges;
+    }
+
+    public String rename(Vertex v, String n) {
+        String previous = v.getName();
+        v.setName(n);
+        return previous;
+    }
+
+    public String rename(Edge e, String n) {
+        String previous = e.getName();
+        e.setName(n);
+        return previous;
+    }
+
+    /**
+     * Checks if the specified vertex exists in the graph.
+     * @param v vertex to find
+     * @return true if v is found in graph, false otherwise
+     */
+    public boolean containsVertex(Vertex v) {
+        int i = 0;
+        boolean found = false;
+        while (!found && i < vertices.size()) {
+            found = (vertices.get(i).equals(v));
+            i++;
+        }
+        return found;
+    }
+
+    /**
+     * Checks if the specified edge exists in the graph.
+     * @param e edge to find
+     * @return true if e is found in graph, false otherwise
+     */
+    public boolean containsEdge(Edge e) {
+        ArrayList<Edge> edges = edges();
+        int i = 0;
+        boolean found = false;
+        while (!found && i < edges.size()) {
+            found = (edges.get(i).equals(e));
+            i++;
+        }
+        return found;
+    }
+
+    /**
+     * Labels all vertices and edges in the graph as UNEXPLORED in preparation
+     * for traversal.
+     */
+    public void labelGraph() {
+        vertexLabels = new HashMap<Vertex,Label>();
+        for (Vertex v : vertices) {
+            setLabel(v, Label.UNEXPLORED);
+        }
+
+        edgeLabels = new HashMap<Edge,Label>();
+        for (Edge e : this.edges()) {
+            setLabel(e, Label.UNEXPLORED);
+        }
+    }
+
+    /**
+     * Performs a depth-first traversal of all vertices and edges in the graph
+     * starting from the first vertex (index 0). The labels of the vertices and 
+     * edges are printed upon traversal.
+     */
+    public void dftraverse() {
+        labelGraph();
+        for (Vertex v : vertices) {
+            if (this.getLabel(v) == Label.UNEXPLORED) {
+                dftraverse(v);
+            }
+        }
+    }
+
+    /**
+     * Performs a depth-first traversal of the graph starting from the specified
+     * Vertex and prints the labels upon traversal.
+     * @param v Vertex to begin traversal
+     */
+    public void dftraverse(Vertex v) {
+        setLabel(v, Label.VISITED);
+        System.out.println(v.getName() + ": " + getLabel(v));
+        for (Edge e : incidentEdges(v)) {
+            if (getLabel(e) == Label.UNEXPLORED) {
+                Vertex opposite = opposite(e,v);
+                if (getLabel(opposite) == Label.UNEXPLORED) {
+                    setLabel(e, Label.DISCOVERY);
+                    System.out.println(e.getName() + ": " + getLabel(e));
+                    dftraverse(opposite);
+                } else {
+                    setLabel(e, Label.BACK);
+                    System.out.println(e.getName() + ": " + getLabel(e));
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the graph has a cycle involving the specified Vertex.
+     * @param v Vertex to check
+     * @return true if there is a cycle involving v, false otherwise
+     */
+    public boolean hasCycle(Vertex v) {
+        dftraverse();
+        for (Edge e : incidentEdges(v)) {
+            if (getLabel(e) == Label.BACK) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the graph contains any cycles.
+     * @return true if there is at least 1 cycle in the graph, false otherwise
+     */
+    public boolean hasCycle() {
+        dftraverse();
+        for (Edge e : edges()) {
+            if (getLabel(e) == Label.BACK) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Labels the graph and returns a path from specified start vertex to the end vertex, described
+     * as a list of edges. It will also check if both vertices exist in the graph and return null 
+     * if either one doesn't exist.
+     * @param u start vertex of the path
+     * @param v end vertex to reach from the start
+     * @return list of edges to describe the path or null if there is no path or vertices don't exist
+     */
+    public ArrayList<Edge> path(Vertex u, Vertex v) {
+        if (containsVertex(u) && containsVertex(v)) {
+            labelGraph();
+            return pathFind(u,v);
+        } else {
+            System.out.println("One or both vertices don't exist in the network");
+            return null;
+        }
+    }
+
+    /**
+     * Attempts to find a path between two given vertices, described as a list of Edges.
+     * @param u start vertex of the path
+     * @param v end vertex of the path
+     * @return path as a list of edges or null if no path exists
+     */
+    public ArrayList<Edge> pathFind(Vertex u, Vertex v) {
+        setLabel(u, Label.VISITED);
+        
+        //check if this vertex is destination v
+        if (u.equals(v)) {
+            ArrayList<Edge> pathFound = new ArrayList<Edge>();
+            for (int i = 0; i < pathTrack.size(); i++) {
+                pathFound.add(pathTrack.pop());
+            }
+            return pathFound;
+        } else {
+            //explore incident edges
+            for (Edge e : incidentEdges(u)) {
+                //check if the edge is unexplored
+                if (getLabel(e) == Label.UNEXPLORED) {
+                    //if yes, check if the opposite vertex is unexplored
+                    Vertex opposite = opposite(e,u);
+                    if (getLabel(opposite) == Label.UNEXPLORED) {
+                        //if yes, explore the edge and push edge onto stack
+                        setLabel(e, Label.DISCOVERY);
+                        pathTrack.push(e);
+                        //if opposite was destination then return path
+                        ArrayList<Edge> pathFound2 = pathFind(opposite,v);
+                        if (pathFound2 != null) {
+                            return pathFound2;
+                        } else {
+                            //otherwise pop and traverse the next incident edge
+                            pathTrack.pop();
+                        }
+                    } else {
+                        //if vertex has been explored, then e is a back edge
+                        setLabel(e, Label.BACK);
+                    }
+                }
+            }
+            return null;
+        }
+
+    }
+
+    /**
+     * Sets the label of a Vertex to the specified value to reflect the status of
+     * traversal in the map collection. If a label already exists for that Vertex,
+     * the label will be replaced accordingly.
+     * @param v vertex to label
+     * @param status label value to associate with the Vertex
+     */
+    public void setLabel(Vertex v, Label status) {
+        vertexLabels.put(v, status);
+    }
+
+    /**
+     * Label an Edge to the specified value to reflect the status of traversal in 
+     * the map collection. If a label already exists for that Edge the label will be
+     * replaced with the new value.
+     * @param e Edge to label
+     * @param status label value to associate with the Edge
+     */
+    public void setLabel(Edge e, Label status) {
+        edgeLabels.put(e, status);
+    }
+
+    /**
+     * Return the label associated with the vertex.
+     * @param v vertex to return the label of
+     * @return label value to indicate traversal status
+     */
+    public Label getLabel(Vertex v) {
+        return vertexLabels.get(v);
+    }
+
+    /**
+     * Return the label associated with the edge.
+     * @param e edge to return the label of
+     * @return label value to indicate traversal status
+     */
+    public Label getLabel(Edge e) {
+        return edgeLabels.get(e);
+    }
+
+    /**
+     * Return the Vertex with the specified index in the graph for testing purposes.
+     * @return Vertex at index or null if the index is out of bounds
+     */
+    public Vertex getVertex(int index) {
+        if (index > vertices.size() || index < 0) {
+            System.out.println("Index out of bounds. Please try again.");
+            return null;
+        } else {
+            return vertices.get(index);
+        }
+    }
+
+    /**
+     * Return the Edge with the specified index of the vertices in the graph for testing purposes.
+     * @return Edge at index in matrix, null if no edge exists or index is out of bounds
+     */
+    public Edge getEdge(int vIndex, int wIndex) {
+        if (vIndex > vertices.size() || vIndex < 0 || wIndex > vertices.size() 
+        || wIndex < 0) {
+            System.out.println("Index of vertices are out of bounds. Please try again.");
+            return null;
+        } else {
+            return matrix[vIndex][wIndex];
+        }
+    }
+
+    /**
+     * Generates a string representation of the graph as a grid, based on the
+     * adjacency matrix structure of the vertices and edges. The device indexes
+     * are indicated by the numbers at the top and on the left of the grid.
+     * @return String representation of the graph as a grid
+     */
+    @Override
+    public String toString() {
+        String s = "Matrix of the Network: \n" 
+            + "Device indexes are indicated at the top (row) and left (column)\n"
+            + "  ";
+        for (int i = 0; i < matrix.length; i++) {
+            s += "_" + i;
+        }
+        s += "\n";
+
+        for (int i = 0; i < matrix.length; i++) {
+            s += i + "| ";
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] != null) {
+                    s += "1 ";
+                } else {
+                    s += "0 ";
+                }
+            }
+            s += "\n";
+        }
+        return s;
+    }
+}
