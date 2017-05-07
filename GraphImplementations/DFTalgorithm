@@ -1,9 +1,12 @@
+/**
+ * DFT Algorithm for an undirected graph using a HashMap labelling system.
+ * @author Panchama
+ * @version May 2017
+ */
     /**
      * Performs a depth-first traversal of all vertices and edges in the graph
      * starting from the first vertex (index 0). The labels of the vertices and 
      * edges are printed upon traversal.
-     * @author Panchama
-     * @version May 2017
      */
     public void dftraverse() {
         labelGraph();
@@ -35,4 +38,44 @@
                 }
             }
         }
+    }
+    
+        /**
+     * Sets the label of a Vertex to the specified value to reflect the status of
+     * traversal in the map collection. If a label already exists for that Vertex,
+     * the label will be replaced accordingly.
+     * @param v vertex to label
+     * @param status label value to associate with the Vertex
+     */
+    public void setLabel(Vertex v, Label status) {
+        vertexLabels.put(v, status);
+    }
+
+    /**
+     * Label an Edge to the specified value to reflect the status of traversal in 
+     * the map collection. If a label already exists for that Edge the label will be
+     * replaced with the new value.
+     * @param e Edge to label
+     * @param status label value to associate with the Edge
+     */
+    public void setLabel(Edge e, Label status) {
+        edgeLabels.put(e, status);
+    }
+
+    /**
+     * Return the label associated with the vertex.
+     * @param v vertex to return the label of
+     * @return label value to indicate traversal status
+     */
+    public Label getLabel(Vertex v) {
+        return vertexLabels.get(v);
+    }
+
+    /**
+     * Return the label associated with the edge.
+     * @param e edge to return the label of
+     * @return label value to indicate traversal status
+     */
+    public Label getLabel(Edge e) {
+        return edgeLabels.get(e);
     }
