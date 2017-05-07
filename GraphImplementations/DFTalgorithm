@@ -1,0 +1,36 @@
+    /**
+     * Performs a depth-first traversal of all vertices and edges in the graph
+     * starting from the first vertex (index 0). The labels of the vertices and 
+     * edges are printed upon traversal.
+     */
+    public void dftraverse() {
+        labelGraph();
+        for (Vertex v : vertices) {
+            if (this.getLabel(v) == Label.UNEXPLORED) {
+                dftraverse(v);
+            }
+        }
+    }
+
+    /**
+     * Performs a depth-first traversal of the graph starting from the specified
+     * Vertex and prints the labels upon traversal.
+     * @param v Vertex to begin traversal
+     */
+    public void dftraverse(Vertex v) {
+        setLabel(v, Label.VISITED);
+        System.out.println(v.getName() + ": " + getLabel(v));
+        for (Edge e : incidentEdges(v)) {
+            if (getLabel(e) == Label.UNEXPLORED) {
+                Vertex opposite = opposite(e,v);
+                if (getLabel(opposite) == Label.UNEXPLORED) {
+                    setLabel(e, Label.DISCOVERY);
+                    System.out.println(e.getName() + ": " + getLabel(e));
+                    dftraverse(opposite);
+                } else {
+                    setLabel(e, Label.BACK);
+                    System.out.println(e.getName() + ": " + getLabel(e));
+                }
+            }
+        }
+    }
