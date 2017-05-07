@@ -1,0 +1,53 @@
+
+/**
+ * Implementation of a node in a graph that contains data and an index number to
+ * indicate its position in the adjacency matrix graph.
+ * @author Panchama
+ * @version April 2017
+ */
+public class Vertex
+{
+    private int index;
+    private Object data;
+
+    /**
+     * Constructs a new node with the given data and index.
+     * @param data
+     */
+    public Vertex(int index, Object data) {
+        this.index = index;
+        this.data = data;
+    }
+
+    /**
+     * Return the data stored at the node.
+     * @return data at node
+     */
+    public Object getData() {
+        return data;
+    }
+    
+    /**
+     * Return the index number of the node in the graph.
+     * @return index number
+     */
+    public int getIndex() {
+        return index;
+    }
+    
+    /**
+     * Replaces the data stored at the node.
+     * @param data new data to store at node
+     */
+    public void setData(Object data) {
+        this.data = data;;
+    }
+    
+    /**
+     * Decrements the index number of the vertex by 1.
+     */
+    public void decrementIndex() {
+        --index;
+    }
+        
+}
