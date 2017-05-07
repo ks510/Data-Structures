@@ -1,0 +1,159 @@
+import java.util.List;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.ListIterator;
+/**
+ * Graph ADT implemented using an edge list structure using Linked lists.
+ * 
+ * @author Panchama
+ * @version May 2017
+ */
+public class Graph implements GraphADT
+{
+    private LinkedList<Vertex> vertices;
+    private LinkedList<Edge> edges;
+
+    /**
+     * Constructs a new edge list graph with the given list of Vertices and Edges.
+     * @param vertices list of vertices in the graph
+     * @param edges list of edges in the graph
+     */
+    public Graph(List<Vertex> vertices, List<Edge> edges) {
+        this.vertices = new LinkedList<Vertex>(vertices);
+        this.edges = new LinkedList<Edge>(edges);
+    }
+    
+    /**
+     * Constructs an empty edge list graph.
+     */
+    public Graph() {
+        this.vertices = new LinkedList<Vertex>();
+        this.edges = new LinkedList<Edge>();
+    }
+
+    //O(1) - two operations
+    @Override
+    public Vertex insertVertex(Object data) {
+        Vertex v = new Vertex(data);
+        vertices.add(v);
+        return v;
+    }
+
+    //O(n) - must check each vertex for existance and each edge in the collection for removal
+    @Override
+    public Object removeVertex(Vertex v) {
+        if (vertices.contains(v)) {
+            for (Edge e : edges) {
+                if (e.getEndpointV() == v || e.getEndpointW() == v) {
+                    edges.remove(e);
+                }
+            }
+            vertices.remove(v);
+            return v.getData();
+        } else {
+            return null;
+        }
+    }
+
+    //O(1) - two operations
+    @Override
+    public Edge insertEdge(Vertex v, Vertex w, Object data) {
+        Edge e = new Edge(v, w, data);
+        edges.add(e);
+        return e;
+    }
+
+    //O(n) - worst case will traverse the whole list
+    @Override
+    public Object removeEdge(Edge e) {
+        if (edges.contains(e)) {
+            edges.remove(e);
+            return e.getData();
+        } else {
+            return null;
+        }
+    }
+
+    //O(1) - two operations
+    @Override
+    public Vertex opposite(Edge e, Vertex v) {
+        if (e.getEndpointV() == v) {
+            return e.getEndpointW();
+        } else {
+            return e.getEndpointV();
+        }
+    }
+
+    //O(n) - copying operation
+    @Override
+    public ArrayList<Vertex> vertices() {
+        return new ArrayList<Vertex>(vertices);
+    }
+
+    //O(n) - copying operation
+    @Override
+    public ArrayList<Edge> edges() {
+        return new ArrayList<Edge>(edges);
+    }
+
+    //O(n) - wrost case checks every edge in the list
+    @Override
+    public boolean areAdjacent(Vertex v, Vertex w) {
+        ListIterator<Edge> i = edges.listIterator(0);
+        boolean found = false;
+        while(i.hasNext() && !found) {
+            Edge current = i.next();
+            if (current.getEndpointV() == v && current.getEndpointW() == w) {
+                found = true;
+            } else if (current.getEndpointV() == w && current.getEndpointW() == v) {
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    //O(n) - must check every edge in the list
+    @Override
+    public ArrayList<Edge> incidentEdges(Vertex v) {
+        ArrayList<Edge> incidentList = new ArrayList<Edge>();
+        ListIterator<Edge> i = edges.listIterator(0);
+        boolean found = false;
+        while(i.hasNext() && !found) {
+            Edge current = i.next();
+            if (current.getEndpointV() == v || current.getEndpointW() == v) {
+                found = true;
+            }
+        }
+        return incidentList;
+    }
+
+    //O(n) - worst case iterates through every vertex in the list
+    @Override
+    public Object replaceData(Vertex v, Object data) {
+        ListIterator<Vertex> i = vertices.listIterator(0);
+        while (i.hasNext()) {
+            Vertex current = i.next();
+            if (current == v) {
+                Object previous = current.getData();
+                current.setData(data);
+                return previous;
+            }
+        }
+        return null;
+    }
+
+    //O(n) - worst case iterates through every vertex in the list
+    @Override    
+    public Object replaceData(Edge e, Object data) {
+        ListIterator<Edge> i = edges.listIterator(0);
+        while (i.hasNext()) {
+            Edge current = i.next();
+            if (current == e) {
+                Object previous = current.getData();
+                current.setData(data);
+                return previous;
+            }
+        }
+        return null;
+    }
+}
