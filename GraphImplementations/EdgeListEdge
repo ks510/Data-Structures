@@ -1,0 +1,37 @@
+
+/**
+ * Represents an edge that connects two vertices in an edge list graph 
+ * structure that can store an item of data and references to two vertices.
+ * 
+ * @author Panchama
+ * @version May 2017
+ */
+public class Edge
+{
+    private Vertex v;
+    private Vertex w;
+    private Object data;
+    
+    public Edge(Vertex v, Vertex w, Object data) {
+        this.v = v;
+        this.w = w;
+        this.data = data;
+    }
+    
+    public Object getData() {
+        return data;
+    }
+    
+    public void setData(Object data) {
+        this.data = data;
+    }
+    
+    public Vertex getEndpointV() {
+        return v;
+    }
+    
+    public Vertex getEndpointW() {
+        return w;
+    }
+    
+}
