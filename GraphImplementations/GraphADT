@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Graph API that implements all basic methods (not traversal) and uses ArrayList type for lists.
  * 
- * @author Karen Suen
+ * @author Panchama
  * @version April 2017
  */
 public interface GraphADT
