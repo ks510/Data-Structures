@@ -3,6 +3,14 @@
  * @author Panchama
  * @version May 2017
  */
+ 
+    /**
+     * A simple enum class for the list of possible label values of vertices and edges.
+     */
+    public enum Label {
+        UNEXPLORED, VISITED, DISCOVERY, BACK;
+    }
+    
     /**
      * Performs a depth-first traversal of all vertices and edges in the graph
      * starting from the first vertex (index 0). The labels of the vertices and 
