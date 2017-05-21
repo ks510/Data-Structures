@@ -2,7 +2,7 @@ import java.util.NoSuchElementException;
 /**
  * Array-based implementation of deques
  * 
- * @author Karen Suen
+ * @author Panchama
  * @version March 2017
  */
 public class arrayDeque
