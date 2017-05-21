@@ -1,6 +1,6 @@
 /**
  * dListNode implements a node for a doubly-linked list
- * @author Karen Suen
+ * @author Panchama
  * @version March 2017
  */
 public class dListNode
