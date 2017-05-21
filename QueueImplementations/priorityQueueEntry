@@ -2,7 +2,7 @@
 /**
  * Entry object that contains a key and value
  * 
- * @author Karen Suen
+ * @author Panchama
  * @version March 2017
  */
 public class Entry
