@@ -2,7 +2,7 @@
 /**
  * Basic Test class for Deque Implementations
  * 
- * @author Karen Suen 
+ * @author Panchama
  * @version March 2017
  */
 public class testDeque
