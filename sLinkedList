@@ -5,7 +5,7 @@ import java.lang.IndexOutOfBoundsException;
  * A linked list is a chain of ListNode objects. The head of the list is the 
  * first node of the chain (or null in the case of an empty list).
  * 
- * @author Karen Suen
+ * @author Panchama
  * @version March 2017
  */
 public class LinkedList
