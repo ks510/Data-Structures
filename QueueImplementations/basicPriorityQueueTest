@@ -1,7 +1,7 @@
 
 /**
  * Basic test class for a priority queue
- * @author Karen Suen
+ * @author Panchama
  * @version March 2017
  */
 public class PriorityQueueTest
